@@ -81,6 +81,38 @@ int
 sys_pgaccess(void)
 {
   // lab pgtbl: your code here.
+  uint64 staradd;
+  int n;
+  uint64 useradd;
+  if(argaddr(0, &staradd) < 0)
+    return -1;
+
+  
+  if(argint(1, &n) < 0)
+    return -1;
+
+  if(n>sizeof(useradd)*8)
+  {
+
+    printf("too many pages!\n");
+    return -1;
+  }
+  
+  if(argaddr(2, &useradd) < 0)
+    return -1;
+
+  uint64 bitmask = 0;
+  pagetable_t p = myproc()->pagetable;
+  for(int i=0; i<n; i++)
+  {
+    pte_t *pte = walk(p, staradd+i*PGSIZE, 0);
+    if(*pte & PTE_A)
+    {
+      bitmask |= (1<<i);
+      *pte &= ~PTE_A; //reset PTE_A because hardware will set PTE_A automatically when use this function
+    }
+  } 
+  copyout(p, useradd, (char*)&bitmask, sizeof(bitmask));
   return 0;
 }
 #endif

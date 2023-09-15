@@ -1,0 +1,10 @@
+1.Any system call that directly or indirectly involes the 'copyout' fuction 
+will be accelerated, as it saves time on copying data. Additionally, system 
+calls used purely for information retrieval, such as 'getip' in this section, 
+will also be faster. This is because the operation of trapping into the 
+operating system is no longer neccesary, and the corresponding data can be read
+in usermode instead.
+2.(1) the starting place of page table
+  (2) pte 0and 511
+  (3) no
+  (4) the real physical address that user want   
