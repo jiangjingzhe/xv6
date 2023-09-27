@@ -127,7 +127,11 @@ found:
     return 0;
   }
 
-  // An empty user page table.
+  p->interval = 0;
+  p->handler = 0;
+  p->tickes = 0;
+  p->alarm = 0;
+
   p->pagetable = proc_pagetable(p);
   if(p->pagetable == 0){
     freeproc(p);
